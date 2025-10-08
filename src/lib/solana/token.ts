@@ -11,6 +11,8 @@ import {
   TokenInvalidAccountOwnerError,
   TokenAccountNotFoundError,
   createMintToInstruction,
+  createSetAuthorityInstruction,
+  AuthorityType,
 } from "@solana/spl-token";
 import { connection } from "./connections";
 
@@ -138,18 +140,52 @@ export async function mintToAddress(
   }
 }
 
-// export async function setMintAuthority(
-//   payer: any,
-//   mint: PublicKey,
-//   newAuthority: PublicKey | null
-// ) {
-//   const sig = await setAuthority(
-//     connection,
-//     payer,
-//     mint,
-//     payer.publicKey,
-//     AuthorityType.MintTokens,
-//     newAuthority
-//   );
-//   return sig;
-// }
+export async function setMintAuthority(
+  payer: { publicKey: PublicKey, signTransaction: (tx: Transaction) => Promise<Transaction> },
+  mint: PublicKey,
+  newAuthority: PublicKey | null
+) {
+  const ixs = createSetAuthorityInstruction(
+    mint,
+    payer.publicKey,
+    AuthorityType.MintTokens,
+    newAuthority,
+    [payer.publicKey],
+    TOKEN_PROGRAM_ID
+  );
+  const txs = new Transaction().add(ixs);
+  txs.feePayer = payer.publicKey;
+  txs.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+  
+  const signed = await payer.signTransaction(txs);
+
+  const txid = await connection.sendRawTransaction(signed.serialize());
+  await connection.confirmTransaction(txid);
+
+  return txid;
+}
+
+export async function setFreezeAuthority(
+  payer: { publicKey: PublicKey, signTransaction: (tx: Transaction) => Promise<Transaction> },
+  mint: PublicKey,
+  newAuthority: PublicKey | null
+) {
+  const ixs = createSetAuthorityInstruction(
+    mint,
+    payer.publicKey,
+    AuthorityType.FreezeAccount,
+    newAuthority,
+    [payer.publicKey],
+    TOKEN_PROGRAM_ID
+  );
+  const txs = new Transaction().add(ixs);
+  txs.feePayer = payer.publicKey;
+  txs.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+  
+  const signed = await payer.signTransaction(txs);
+
+  const txid = await connection.sendRawTransaction(signed.serialize());
+  await connection.confirmTransaction(txid);
+
+  return txid;
+}

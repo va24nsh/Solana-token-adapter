@@ -9,11 +9,11 @@ export function MintToForm() {
   const {
     loading,
     error,
-    mintAddress,
     accountAddress,
     mintHandler,
   } = useTokenMint();
   const [amount, setAmount] = useState(0);
+  const [mintAddress, setMintAddress] = useState<string | null>(null);
 
   return (
     <>
@@ -26,6 +26,12 @@ export function MintToForm() {
             mintHandler(amount, mintAddress);
           }}
         >
+          <Input
+            type="text"
+            label="mintAddress"
+            value={mintAddress ? mintAddress : ""}
+            onChange={(e) => setMintAddress(e.target.value)}
+          />
           <Input
             type="number"
             label="Amount"

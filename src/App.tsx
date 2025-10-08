@@ -4,6 +4,7 @@ import { TokenMintForm } from "./components/features/TokenMintCreator/TokenMintF
 import { WalletMultiCustom } from "./components/wallets/WalletMultiCustom";
 import WalletBalance from "./components/wallets/WalletBalance";
 import { MintToForm } from "./components/features/TokenMinter/MintToForm";
+import { AuthorityChange } from "./components/features/AuthorityManager/AuthorityUpdateForm";
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
           <div className="w-full max-w-5xl flex justify-between md:flex-row gap-8">
             <TokenMintForm />
             <MintToForm />
+          </div>
+          <div className="w-full max-w-5xl flex justify-between md:flex-row gap-8">
+            <AuthorityChange />
           </div>
         </div>
       </SolanaWalletProvider>
