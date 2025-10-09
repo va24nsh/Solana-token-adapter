@@ -1,73 +1,112 @@
-# React + TypeScript + Vite
+# Solana Token Adapter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, custom UI dashboard for managing Solana tokens, built with React and the Solana Wallet Adapter. This project features a custom wallet selector and connect buttons, and provides a seamless experience for minting tokens, creating associated token accounts (ATAs), minting to addresses, and managing token authorities (mint and freeze).
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **Custom Wallet Selector & Connect UI:**
+  Enhanced user experience with custom-designed wallet selection and connection components.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Token Minting:**
+  Easily create new SPL token mints with configurable decimals.
 
-## Expanding the ESLint configuration
+- **Mint to Address:**
+  Mint tokens to any associated token account, with automatic ATA creation if needed.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Authority Management:**
+  Update mint and freeze authorities for your tokens directly from the dashboard.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Network Support:**
+  Easily switch between Solana mainnet, devnet, and testnet (with global state management via Recoil).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Dark Mode Dashboard:**
+  Consistent, modern dark theme across all components.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Tech Stack
+
+- **React** (with hooks)
+- **Recoil** for global state management
+- **Solana Wallet Adapter** for wallet integration
+- **@solana/web3.js** and **@solana/spl-token** for blockchain interactions
+- **Tailwind CSS** and CSS variables for styling
+
+---
+
+## Getting Started
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+3. **Open your browser:**
+   Visit [http://localhost:5173](http://localhost:5173) to use the dashboard.
+
+---
+
+## Usage
+
+- **Connect your wallet** using the custom selector and connect buttons.
+- **Create a new token mint** by specifying decimals.
+- **Mint tokens** to your wallet or any address.
+- **Change mint or freeze authorities** for your tokens.
+- **Switch networks** (mainnet, devnet, testnet) as needed.
+
+---
+
+## Project Structure
+
+```
+src/
+  components/
+    features/
+      TokenMintCreator/
+      TokenMinter/
+      AuthorityManager/
+    ui/
+      Button.tsx
+      Card.tsx
+      Input.tsx
+      Alert.tsx
+    wallets/
+      WalletProvider.tsx
+      WalletConnectButton.tsx
+      WalletMultiCustom.tsx
+      WalletBalance.tsx
+  hooks/
+    useTokenMint.ts
+    useAuthorityManagement.ts
+    useTransactionHistory.ts
+  lib/
+    solana/
+      token.ts
+      connections.ts
+  state/
+    atoms.ts
+    selectors.ts
+  style.css
+  App.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Notes
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- All blockchain actions are signed by your connected wallet; your wallet will prompt you to approve transactions.
+- The UI is fully responsive and optimized for a dashboard experience.
+- Error handling and loading states are built-in for all blockchain actions.
+
+---
+
+**Enjoy managing your Solana tokens with a beautiful, custom dashboard!**
